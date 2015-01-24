@@ -614,23 +614,23 @@
 
             var portal = this._data.portals[i];
             
-            portal.ondragover = function(e) {
-                e.preventDefault();
-                return false;
+            portal.ondragenter = function(e) {
+                console.log(e.dataTransfer.types);
+                if (that._inArray('Files', e.dataTransfer.types)) {
+                    this.classList.add('active');
+                    return false;
+                }
             };
 
-            portal.ondragenter = function() {
-                this.classList.add('active');
-                return false;
-            };
-
-            portal.ondragleave = function() {
-                this.classList.remove('active');
-                return false;
+            portal.ondragleave = function(e) {
+                if (that._inArray('Files', e.dataTransfer.types)) {
+                    this.classList.remove('active');
+                    return false;
+                }
             };
 
             portal.ondrop = function(e) {
-                if (e.dataTransfer.files.length) {
+                if (that._inArray('Files', e.dataTransfer.types)) {
                     e.preventDefault();
                     this.classList.remove('active');
                     that._handleDrop(e.dataTransfer.files);
