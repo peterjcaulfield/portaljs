@@ -615,7 +615,6 @@
             var portal = this._data.portals[i];
             
             portal.ondragenter = function(e) {
-                console.log(e.dataTransfer.types);
                 if (that._inArray('Files', e.dataTransfer.types)) {
                     this.classList.add('active');
                     return false;
