@@ -1,0 +1,18 @@
+{
+  "name": "dropzone",
+  "version": "0.0.0",
+  "homepage": "https://github.com/peterjcaulfield/dropzonejs",
+  "authors": [
+    "Peter Caulfield <peterjcaulfield@gmail.com>"
+  ],
+  "license": "MIT",
+  "private": true,
+  "main": [
+    "dropzone.js",
+    "dropzone.min.js"
+  ],
+  "ignore": [
+    "**/.*",
+    "tests"
+  ]
+}
