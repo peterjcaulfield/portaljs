@@ -2,6 +2,8 @@
 
     'use strict';
 
+    var INSTANCE_COUNT = 0;
+
     // portal will be bound to the window object using this name
     var NAME = 'Portal';
 
@@ -561,6 +563,14 @@
         this._processUploadQueue();
     };
 
+    Portal.prototype._handleClick = function(e) {
+        this._handleDrop(e.srcElement.files);
+        //TODO
+        // wrap the element in a form
+        // reset the input
+        // unwrap the element
+    }
+
     /**
      * Initialize Portal object 
      *          
@@ -596,6 +606,33 @@
             } 
         } 
     };
+
+    Portal.prototype._triggerClickEvent = function(elementId) {
+
+            var evt;
+            var el = document.getElementById(elementId);
+
+            if (document.createEvent) {
+                evt = document.createEvent("MouseEvents");
+                evt.initMouseEvent("click", true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+            }
+
+            evt.cancelBubble = true;
+
+            (evt) ? el.dispatchEvent(evt) : (el.click && el.click());
+    };
+
+    Portal.prototype._createHiddenPortal = function(id) {
+
+            var hiddenInput = document.createElement('input');
+            hiddenInput.type = 'file';
+            hiddenInput.setAttribute('multiple', 'multiple');
+            hiddenInput.classList.add('hiddenPortal'); 
+            hiddenInput.setAttribute('id', 'hiddenPortal-' + id); 
+            hiddenInput.style.visibility = 'hidden';
+    
+            return hiddenInput;    
+    }
     
     /**
      * Bind Portals dom events 
@@ -606,6 +643,15 @@
      */
     Portal.prototype._bind = function() {
 
+        var hiddenInput = this._createHiddenPortal(++INSTANCE_COUNT);
+
+        document.body.appendChild(hiddenInput);
+
+        hiddenInput.addEventListener('change', function(e) { 
+                that._handleClick(e);
+            }
+        );
+
         this._getPortals();
 
         var that = this;
@@ -613,6 +659,18 @@
         for (var i = 0; i < this._data.portals.length; i++) {
 
             var portal = this._data.portals[i];
+
+            // only divs allow uploads via click 
+            if (portal.nodeName == "DIV") {
+                portal.addEventListener('click', function(){
+                that._triggerClickEvent(hiddenInput.id); 
+                });
+            }
+
+            portal.ondragover = function(e) {
+                e.preventDefault();
+                return false;
+            };
             
             portal.ondragenter = function(e) {
                 if (that._inArray('Files', e.dataTransfer.types)) {
