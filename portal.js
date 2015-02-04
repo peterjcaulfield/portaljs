@@ -564,11 +564,19 @@
     };
 
     Portal.prototype._handleClick = function(e) {
-        this._handleDrop(e.srcElement.files);
-        //TODO
-        // wrap the element in a form
+
+        var hiddenPortal = e.srcElement;
+
+        this._handleDrop(hiddenPortal.files);
+
+        var parentPortal = hiddenPortal.parentNode;
+        
         // reset the input
-        // unwrap the element
+        var tmpForm = document.createElement('form');
+        tmpForm.appendChild(hiddenPortal);
+        tmpForm.reset();
+
+        parentPortal.appendChild(tmpForm.firstChild);
     }
 
     /**
