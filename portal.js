@@ -136,8 +136,12 @@
                 return _;
             })(this);
 
-        // initialise the portal object
-        this._initialise(DEFAULTS, config);
+        // initialise the portal object on DOM load
+        var that = this;
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            that._initialise(DEFAULTS, config);
+        });
     };
 
     /**
@@ -671,7 +675,7 @@
             // only divs allow uploads via click 
             if (portal.nodeName == "DIV") {
                 portal.addEventListener('click', function(){
-                that._triggerClickEvent(hiddenInput.id); 
+                    that._triggerClickEvent(hiddenInput.id); 
                 });
             }
 
