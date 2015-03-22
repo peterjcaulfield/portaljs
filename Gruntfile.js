@@ -10,6 +10,8 @@ module.exports = function(grunt) {
         }
     };
 
+    // load the watch task
+    grunt.loadNpmTasks('grunt-contrib-watch')
     // Load the plugin that provides the "uglify" task.
     grunt.loadNpmTasks('grunt-contrib-uglify');
     // load jasmine test runner
@@ -18,6 +20,10 @@ module.exports = function(grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         uglify: minify,
+        watch: {
+            files: ['portal.js'],
+            tasks: ['copy-local']
+        },
         jasmine: {
             all: {
                 src: 'portal.js',
@@ -46,6 +52,10 @@ module.exports = function(grunt) {
 
     grunt.registerTask('test', ['jasmine:all']);
     grunt.registerTask('coverage', ['jasmine:istanbul']);
+
+    grunt.registerTask('copy-local', function() {
+        grunt.file.copy('portal.js', './local/portal.js');
+    });
 
     //TODO: release rollback task
     grunt.registerTask('release', 'prep release', function(tag){
