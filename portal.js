@@ -605,6 +605,14 @@
         });
     };
 
+    /**
+     * Update portal default config
+     *
+     * @private
+     * @method
+     * @param {object} - object containing values to overwrite
+     * @param {object} - object containing the values to write
+     */
     Portal.prototype._updateConfig = function(defaults, options) {
 
         if (typeof options == "undefined") return;
@@ -619,6 +627,13 @@
         } 
     };
 
+    /**
+     * Trigger click event on an element
+     *
+     * @private
+     * @method
+     * @param string - DOM element id
+     */
     Portal.prototype._triggerClickEvent = function(elementId) {
 
             var evt;
@@ -634,6 +649,13 @@
             (evt) ? el.dispatchEvent(evt) : (el.click && el.click());
     };
 
+    /**
+     * Create hidden portal (file input)
+     *
+     * @private
+     * @method
+     * @param string - id index
+     */
     Portal.prototype._createHiddenPortal = function(id) {
 
             var hiddenInput = document.createElement('input');
