@@ -8,6 +8,9 @@ describe("Portal", function() {
 
     beforeEach(function() {
         portal = new Portal({});
+        var DOMContentLoaded_event = document.createEvent("Event")
+        DOMContentLoaded_event.initEvent("DOMContentLoaded", true, true)
+        window.document.dispatchEvent(DOMContentLoaded_event);
     });
 
     it("We can create a portal instance successfully", function(){
@@ -16,6 +19,9 @@ describe("Portal", function() {
 
     it("We can override config with object passed to constructor", function(){
         var customisedPortal = new Portal({maxUploads: 100});
+        var DOMContentLoaded_event = document.createEvent("Event")
+        DOMContentLoaded_event.initEvent("DOMContentLoaded", true, true)
+        window.document.dispatchEvent(DOMContentLoaded_event);
         expect(customisedPortal.config.maxUploads).toEqual(100);
     });
 
